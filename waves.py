@@ -84,6 +84,7 @@ class Wave:
 class TONES(Enum):
     TONE = 2
     SEMITONE = 1
+    THREESEMITONE = 6
 
 
 class Octave():
@@ -103,10 +104,37 @@ class Octave():
         self.wavesStorage = {}
 
 
-        self.mjScale = [TONES.TONE,TONES.TONE,TONES.SEMITONE,
-                        TONES.TONE,TONES.TONE,TONES.TONE,TONES.SEMITONE]
+        self.mjScale = [
+            TONES.TONE,TONES.TONE,TONES.SEMITONE,
+            TONES.TONE,TONES.TONE,TONES.TONE,TONES.SEMITONE]
 
-        self.minNaturalScale = ["C","D","D#","F","G","G#","A#","C1"]
+        self.arabScale = [
+            TONES.SEMITONE, TONES.THREESEMITONE, TONES.SEMITONE,
+            TONES.TONE, TONES.SEMITONE, TONES.THREESEMITONE, TONES.SEMITONE
+        ]
+
+        self.mjArmonicScale = [
+            TONES.TONE,TONES.TONE,TONES.TONE,
+            TONES.TONE,TONES.SEMITONE,TONES.SEMITONE
+        ]
+
+        self.minNaturalScale = [
+            TONES.TONE, TONES.SEMITONE, TONES.TONE,
+            TONES.TONE, TONES.SEMITONE, TONES.TONE, TONES.TONE
+        ]
+
+
+        self.mjNeapolitan = [
+            TONES.SEMITONE, TONES.TONE, TONES.TONE,
+            TONES.TONE, TONES.SEMITONE, TONES.THREESEMITONE, TONES.SEMITONE
+        ]
+
+        self.minNeapolitan = [
+            TONES.TONE, TONES.TONE, TONES.SEMITONE,
+            TONES.TONE, TONES.TONE, TONES.TONE, TONES.SEMITONE
+        ]
+
+
         self.populateWaves()
 
     def populateWaves(self):
