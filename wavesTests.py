@@ -4,6 +4,28 @@ from waves import *
 
 import matplotlib.pyplot as plt
 
+notes = ["C","C#","D","D#","E","F","F#","G","G#","A","A#"]
+
+
+def doScaleConcatenate(waves):
+    dataToPlay = np.empty([])
+
+    for note in notes:
+        for i in waves:
+            dataToplay = np.append(dataToplay, i.data)
+
+        for i in reversed(waves):
+            dataToplay = np.append(dataToplay, i.data)
+
+    for note in reversed(notes):
+        for i in waves:
+            dataToplay = np.append(dataToplay, i.data)
+
+        for i in reversed(waves):
+            dataToplay = np.append(dataToplay, i.data)
+
+    return dataToPlay
+
 
 class WavesTests(unittest.TestCase):
     def testSingleFreq(self):
@@ -50,39 +72,28 @@ class OctaveTest(unittest.TestCase):
         octave = Octave(baseFreq)
 
         octave.populateStorageWaves(duration=0.1)
-        notes = ["C","C#","D","D#","E","F","F#","G","G#","A","A#"]
-        dataToplay = np.array([])
+        dataToplay = np.empty()
 
         for note in notes:
-            for i in octave.majorScale(note):
-                dataToplay = np.append(dataToplay,i.data)
-
-            for i in reversed(octave.majorScale(note)):
-                dataToplay = np.append(dataToplay,i.data)
-
-        for note in reversed(notes):
-            for i in octave.majorScale(note):
-                dataToplay = np.append(dataToplay,i.data)
-
-            for i in reversed(octave.majorScale(note)):
-                dataToplay = np.append(dataToplay,i.data)
+            dataToplay = np.append(dataToplay,doScaleConcatenate(octave.majorScale(note)))
 
         sd.play(dataToplay)
         time.sleep(40)
 
     def testMinNaturalScale(self):
-        baseFreq = 560
-        t = 0.05
+        baseFreq = 220
         octave = Octave(baseFreq)
 
-        octave.populateStorageWaves()
-        for i in octave.minorNaturalScale():
-            i.play()
-            time.sleep(t)
+        octave.populateStorageWaves(duration=0.1)
+        dataToplay = np.empty()
 
-        for i in reversed(octave.minorNaturalScale()):
-            i.play()
-            time.sleep(t)
+        for note in notes:
+            dataToplay = np.append(dataToplay, doScaleConcatenate(octave.minorNaturalScale(note)))
+
+        plt.plot(dataToplay)
+        sd.play(dataToplay)
+        time.sleep(40)
+        plt.show()
 
 if __name__ == '__main__':
     unittest.main()
